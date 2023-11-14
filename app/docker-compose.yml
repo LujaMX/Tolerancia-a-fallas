@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  sumar:
+    build: ./sumar
+    expose:
+      - "5000"
+    networks:
+      - calculadora-network
+
+  restar:
+    build: ./restar
+    expose:
+      - "5000"
+    networks:
+      - calculadora-network
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    networks:
+      - calculadora-network
+
+networks:
+  calculadora-network:
+    driver: bridge
