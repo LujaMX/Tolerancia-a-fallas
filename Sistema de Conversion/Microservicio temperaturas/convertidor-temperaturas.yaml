@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: convertidor-temperaturas-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: convertidor-temperaturas
+  template:
+    metadata:
+      labels:
+        app: convertidor-temperaturas
+    spec:
+      containers:
+      - name: convertidor-temperaturas-container
+        image: lujamx/convertidor-temperaturas:latest
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: convertidor-temperaturas-service
+spec:
+  selector:
+    app: convertidor-temperaturas
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
